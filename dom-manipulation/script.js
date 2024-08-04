@@ -23,7 +23,7 @@ function populateCategories() {
     
     const categoryFilter = document.getElementById('categoryFilter');
     categoryFilter.innerHTML = '<option value="all">All Categories</option>';
-    categories.forEach(category => {
+    Array.from(categories).forEach(category => {
         const option = document.createElement('option');
         option.value = category;
         option.textContent = category;
@@ -112,3 +112,4 @@ document.getElementById('exportButton').addEventListener('click', exportToJson);
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', loadQuotes);
+
