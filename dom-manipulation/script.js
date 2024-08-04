@@ -30,7 +30,8 @@ async function syncQuotes() {
         populateCategories(); // Update categories dropdown
         showQuotesBasedOnFilter();
         
-        alert('Quotes synchronized with server!');
+        // Notify user that quotes are synced
+        alert('Quotes synced with server!');
     } catch (error) {
         console.error('Failed to synchronize quotes with server:', error);
     }
