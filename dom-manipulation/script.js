@@ -1,7 +1,5 @@
 const quotes = [];
-
-// Simulate server interaction
-const API_URL = 'https://jsonplaceholder.typicode.com/posts'; // Using placeholder API
+const API_URL = 'https://jsonplaceholder.typicode.com/posts'; // Mock API URL
 
 // Load quotes from local storage
 function loadQuotes() {
@@ -28,7 +26,7 @@ async function fetchQuotesFromServer() {
         quotes.length = 0; // Clear local quotes
         quotes.push(...serverQuotes); // Update with server quotes
         saveQuotes();
-        populateCategories();
+        populateCategories(); // Update categories dropdown
         showQuotesBasedOnFilter();
         
         alert('Quotes updated from server!');
@@ -40,18 +38,35 @@ async function fetchQuotesFromServer() {
 // Periodically fetch updates from the server
 setInterval(fetchQuotesFromServer, 60000); // Fetch every 60 seconds
 
-// Handle adding new quotes
-function addQuote() {
+// Add a new quote and send to server
+async function addQuote() {
     const newQuoteText = document.getElementById('newQuoteText').value.trim();
     const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
 
     if (newQuoteText && newQuoteCategory) {
-        quotes.push({ text: newQuoteText, category: newQuoteCategory });
+        const newQuote = { text: newQuoteText, category: newQuoteCategory };
+
+        // Add to local storage
+        quotes.push(newQuote);
         saveQuotes();
+
+        // Send new quote to the server (for simulation)
+        try {
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newQuote)
+            });
+            alert('Quote added successfully!');
+        } catch (error) {
+            console.error('Failed to add quote to server:', error);
+        }
+
         document.getElementById('newQuoteText').value = '';
         document.getElementById('newQuoteCategory').value = '';
         populateCategories(); // Update categories dropdown
-        alert('Quote added successfully!');
         showQuotesBasedOnFilter(); // Show updated quotes based on filter
     } else {
         alert('Please fill out both the quote and category fields.');
