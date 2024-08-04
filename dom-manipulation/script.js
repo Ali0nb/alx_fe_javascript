@@ -16,6 +16,26 @@ function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
+// Sync quotes with the server
+async function syncQuotes() {
+    try {
+        // Fetch quotes from the server
+        const response = await fetch(API_URL);
+        const serverQuotes = await response.json();
+
+        // Example conflict resolution: server data takes precedence
+        quotes.length = 0; // Clear local quotes
+        quotes.push(...serverQuotes); // Update with server quotes
+        saveQuotes();
+        populateCategories(); // Update categories dropdown
+        showQuotesBasedOnFilter();
+        
+        alert('Quotes synchronized with server!');
+    } catch (error) {
+        console.error('Failed to synchronize quotes with server:', error);
+    }
+}
+
 // Fetch quotes from server and update local storage
 async function fetchQuotesFromServer() {
     try {
@@ -113,4 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('categoryFilter').addEventListener('change', filterQuotes);
     document.getElementById('exportQuotes').addEventListener('click', exportToJson);
     document.getElementById('importFile').addEventListener('change', importFromJsonFile);
+
+    // Sync quotes with the server on page load
+    syncQuotes();
 });
