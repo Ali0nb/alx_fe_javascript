@@ -20,10 +20,19 @@
         .form-section {
             margin-top: 20px;
         }
+        #categoryFilter {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>Dynamic Quote Generator</h1>
+    <div class="form-section">
+        <select id="categoryFilter" onchange="filterQuotes()">
+            <option value="all">All Categories</option>
+            <!-- Categories will be dynamically populated -->
+        </select>
+    </div>
     <div id="quoteDisplay">Click "Show New Quote" to display a quote.</div>
     <button id="newQuote">Show New Quote</button>
     
@@ -40,4 +49,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
