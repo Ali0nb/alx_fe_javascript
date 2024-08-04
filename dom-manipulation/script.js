@@ -18,17 +18,22 @@ function saveQuotes() {
 
 // Populate categories in the dropdown
 function populateCategories() {
-    const categories = new Set();
-    quotes.forEach(quote => categories.add(quote.category));
+    // Extract unique categories from quotes
+    const categories = new Set(quotes.map(quote => quote.category));
     
     const categoryFilter = document.getElementById('categoryFilter');
     categoryFilter.innerHTML = '<option value="all">All Categories</option>';
-    Array.from(categories).forEach(category => {
+    
+    // Use .map() to create <option> elements
+    const options = Array.from(categories).map(category => {
         const option = document.createElement('option');
         option.value = category;
         option.textContent = category;
-        categoryFilter.appendChild(option);
+        return option; // Return the option element
     });
+    
+    // Append all options to the dropdown
+    options.forEach(option => categoryFilter.appendChild(option));
 
     // Restore the last selected filter
     const lastCategory = localStorage.getItem('lastCategory');
@@ -112,4 +117,3 @@ document.getElementById('exportButton').addEventListener('click', exportToJson);
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', loadQuotes);
-
